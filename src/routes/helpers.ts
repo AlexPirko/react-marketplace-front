@@ -1,5 +1,6 @@
 export const pathsPublic: { [k: string]: string } = {
     home: '/',
+    productDetailed: '/product/:idOrSlug',
 };
 
 export const pathsPrivate: { [k: string]: string } = {
