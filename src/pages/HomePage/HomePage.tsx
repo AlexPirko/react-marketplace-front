@@ -1,5 +1,8 @@
 import { PageWrapper } from 'App.styled';
 import { Helmet } from 'react-helmet';
+import { dummyProducts } from 'pages/products';
+import { ProductGroup, ProductGroupContainer } from './styled';
+import ProductCard from 'components/ProductCard';
 
 const HomePage: React.FC = () => {
     return (
@@ -9,7 +12,15 @@ const HomePage: React.FC = () => {
             </Helmet>
 
             <PageWrapper>
-                <h1>Main</h1>
+                <ProductGroup>
+                    <h2>Favorites</h2>
+
+                    <ProductGroupContainer>
+                        {dummyProducts.map((product) => (
+                            <ProductCard {...product} key={product.id} />
+                        ))}
+                    </ProductGroupContainer>
+                </ProductGroup>
             </PageWrapper>
         </>
     );
