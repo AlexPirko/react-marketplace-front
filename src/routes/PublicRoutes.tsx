@@ -5,6 +5,7 @@ import { checkPathMatch, paths } from './helpers';
 
 const HomePage = lazy(() => import('pages/HomePage'));
 const ProductDetailedPage = lazy(() => import('pages/ProductDetailedPage'));
+const FavoritesPage = lazy(() => import('pages/FavoritesPage'));
 
 const PublicRoutes: React.FC = () => {
     const location = useLocation();
@@ -15,6 +16,7 @@ const PublicRoutes: React.FC = () => {
         <Routes>
             <Route path={paths.home} element={<HomePage />} />
             <Route path={paths.productDetailed} element={<ProductDetailedPage />} />
+            <Route path={paths.favorites} element={<FavoritesPage />} />
             <Route path='*' element={!isMatch ? <Navigate to={paths.home} /> : null} />
         </Routes>
     );

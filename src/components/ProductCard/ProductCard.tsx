@@ -1,6 +1,12 @@
-import { Link } from 'react-router-dom';
+import { useCallback, useMemo } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+
 import Button from 'components/Button';
+import { paths } from 'routes/helpers';
+import { addToFavorites, removeFromFavorites } from 'features/Favorites/reducer';
 import { ReactComponent as HeartEmpty } from 'assets/img/heart-empty.svg';
+import { ReactComponent as HeartFilled } from 'assets/img/heart-filled.svg';
 
 import {
     Wrapper,
@@ -12,6 +18,7 @@ import {
     PriceDiscounted,
     Title,
     Desc,
+    BtnsWrapper,
 } from './styled';
 
 interface I_ProductCardProps {
@@ -22,6 +29,7 @@ interface I_ProductCardProps {
     priceDiscounted?: number;
     title: string;
     desc: string;
+    isLiked: boolean;
     hideLikes?: boolean;
 }
 
@@ -33,13 +41,35 @@ const ProductCard: React.FC<I_ProductCardProps> = ({
     priceDiscounted,
     title,
     desc,
-    hideLikes,
+    isLiked,
+    hideLikes = false,
 }) => {
+    const dispatch = useDispatch();
+    const location = useLocation();
+
+    const handleFavorites = useCallback(
+        (e: React.MouseEvent<HTMLElement>) => {
+            const { productId } = e.currentTarget.dataset;
+
+            dispatch(!isLiked ? addToFavorites(+productId!) : removeFromFavorites(+productId!));
+        },
+        [dispatch, isLiked],
+    );
+
+    const isFavoritesPage = useMemo(() => location.pathname === paths.favorites, [location.pathname]);
+
+    const removeFavorite = useCallback(
+        (e: React.MouseEvent<HTMLElement>) => {
+            dispatch(removeFromFavorites(+e.currentTarget.dataset.productId!));
+        },
+        [dispatch],
+    );
+
     return (
         <Wrapper>
             {!hideLikes && (
-                <LikeWrapper data-product-id={id}>
-                    <HeartEmpty />
+                <LikeWrapper data-product-id={id} onClick={handleFavorites}>
+                    {isLiked ? <HeartFilled /> : <HeartEmpty />}
                 </LikeWrapper>
             )}
 
@@ -64,7 +94,15 @@ const ProductCard: React.FC<I_ProductCardProps> = ({
 
             <Desc>{desc}</Desc>
 
-            <Button>BUY</Button>
+            <BtnsWrapper>
+                <Button block>BUY</Button>
+
+                {isFavoritesPage && (
+                    <Button type='danger' block onClick={removeFavorite} data-product-id={id}>
+                        Удалить
+                    </Button>
+                )}
+            </BtnsWrapper>
         </Wrapper>
     );
 };

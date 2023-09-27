@@ -1,6 +1,6 @@
 import { Suspense } from 'react';
 import PublicRoutes from 'routes/PublicRoutes';
-import PrivateRoutes from 'routes/PrivateRoutes';
+// import PrivateRoutes from 'routes/PrivateRoutes';
 import Header from 'features/Header';
 import { AppStyles, Footer } from 'App.styled';
 

@@ -1,5 +1,4 @@
-import { createReducer, createAction } from '@reduxjs/toolkit';
-import type { AnyAction } from '@reduxjs/toolkit';
+import { createReducer, createAction, AnyAction } from '@reduxjs/toolkit';
 
 import type { I_UserData } from './types';
 

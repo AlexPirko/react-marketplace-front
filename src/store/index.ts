@@ -4,13 +4,13 @@ import type { TypedUseSelectorHook } from 'react-redux';
 
 import app from 'features/App/reducer';
 import userData from 'features/UserData/reducer';
-// import favorites from 'features/Favorites/reducer';
+import favorites from 'features/Favorites/reducer';
 import type { T_RootState } from './types';
 
 const reducer = combineReducers({
     app,
     userData,
-    // favorites,
+    favorites,
 });
 
 const store = configureStore({ reducer });
