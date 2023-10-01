@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
 
+import { useAppDispatch } from 'store';
 import Button from 'components/Button';
 import { paths } from 'routes/helpers';
 import { addToFavorites, removeFromFavorites } from 'features/Favorites/reducer';
@@ -24,11 +24,11 @@ import {
 interface I_ProductCardProps {
     id: number;
     slug?: string;
-    imgSrc: string;
-    priceRegular: number;
+    image: string;
+    price: number;
     priceDiscounted?: number;
     title: string;
-    desc: string;
+    description: string;
     isLiked: boolean;
     hideLikes?: boolean;
 }
@@ -36,15 +36,15 @@ interface I_ProductCardProps {
 const ProductCard: React.FC<I_ProductCardProps> = ({
     id,
     slug,
-    imgSrc,
-    priceRegular,
+    image,
+    price,
     priceDiscounted,
     title,
-    desc,
+    description,
     isLiked,
     hideLikes = false,
 }) => {
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const location = useLocation();
 
     const handleFavorites = useCallback(
@@ -74,17 +74,17 @@ const ProductCard: React.FC<I_ProductCardProps> = ({
             )}
 
             <Link to={`/product/${slug || id}`}>
-                <Image src={imgSrc} />
+                <Image src={`${process.env.REACT_APP_API_URL}/images/products/${image}`} />
             </Link>
 
             <PriceWrapper>
                 {Number.isInteger(priceDiscounted) ? (
                     <>
                         <PriceDiscounted>$ {priceDiscounted}</PriceDiscounted>
-                        <PriceRegularWhenDiscounted>$ {priceRegular}</PriceRegularWhenDiscounted>
+                        <PriceRegularWhenDiscounted>$ {price}</PriceRegularWhenDiscounted>
                     </>
                 ) : (
-                    <PriceRegular>$ {priceRegular}</PriceRegular>
+                    <PriceRegular>$ {price}</PriceRegular>
                 )}
             </PriceWrapper>
 
@@ -92,7 +92,7 @@ const ProductCard: React.FC<I_ProductCardProps> = ({
                 <Link to={`/product/${slug || id}`}>{title}</Link>
             </Title>
 
-            <Desc>{desc}</Desc>
+            <Desc>{description}</Desc>
 
             <BtnsWrapper>
                 <Button block>BUY</Button>

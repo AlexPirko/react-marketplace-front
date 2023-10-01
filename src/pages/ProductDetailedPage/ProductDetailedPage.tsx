@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
-
-// import { useAppDispatch, useAppSelector } from 'store';
-// import { get } from 'helpers/request';
 import { addToFavorites, removeFromFavorites } from 'features/Favorites/reducer';
 import { selectFavorites } from 'features/Favorites/selectors';
 import { ReactComponent as HeartEmpty } from './img/heart-empty.svg';
@@ -21,24 +18,21 @@ import {
     PriceDiscounted,
 } from './styled';
 import type { I_ProductDetails } from 'pages/types';
-import { useDispatch } from 'react-redux';
-import { dummyProducts } from 'pages/products';
-import { useSelector } from 'react-redux';
-// import type { I_UniRes } from 'types';
+import { get } from 'helpers/request';
+import { I_UniRes } from 'types/types';
+import { useAppDispatch, useAppSelector } from 'store';
 
 const ProductDetailedPage: React.FC = () => {
     const params = useParams();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     const [productDetailed, setProductDetailed] = useState<I_ProductDetails>();
 
     useEffect(() => {
-        const found = dummyProducts.find((product) => [String(product.id), product.slug].includes(params.idOrSlug));
-
-        if (found) setProductDetailed(found);
+        get(`/products/${params.idOrSlug}`).then((res: I_UniRes) => setProductDetailed(res.data));
     }, [params.idOrSlug]);
 
-    const idsInFavorites = useSelector(selectFavorites);
+    const idsInFavorites = useAppSelector(selectFavorites);
 
     const isLiked = useMemo(() => idsInFavorites.includes(productDetailed?.id!), [idsInFavorites, productDetailed]);
 
@@ -55,7 +49,7 @@ const ProductDetailedPage: React.FC = () => {
 
     if (!productDetailed) return null;
 
-    const { id, imgSrc, title, desc, priceRegular, priceDiscounted } = productDetailed;
+    const { id, image, title, description, price, priceDiscounted } = productDetailed;
 
     return (
         <>
@@ -66,7 +60,7 @@ const ProductDetailedPage: React.FC = () => {
             <PageWrapper>
                 <Wrapper>
                     <ImagesWrapper>
-                        <Image src={`${process.env.REACT_APP_API_URL}/images/products/${imgSrc}`} />
+                        <Image src={`${process.env.REACT_APP_API_URL}/images/products/${image}`} />
 
                         <LikeWrapper data-product-id={id} onClick={handleFavorites}>
                             {isLiked ? <HeartFilled /> : <HeartEmpty />}
@@ -80,14 +74,14 @@ const ProductDetailedPage: React.FC = () => {
                             {Number.isInteger(priceDiscounted) ? (
                                 <>
                                     <PriceDiscounted>$ {priceDiscounted}</PriceDiscounted>
-                                    <PriceRegularWhenDiscounted>$ {priceRegular}</PriceRegularWhenDiscounted>
+                                    <PriceRegularWhenDiscounted>$ {price}</PriceRegularWhenDiscounted>
                                 </>
                             ) : (
-                                <PriceRegular>$ {priceRegular}</PriceRegular>
+                                <PriceRegular>$ {price}</PriceRegular>
                             )}
                         </PriceWrapper>
 
-                        <p>{desc}</p>
+                        <p>{description}</p>
                     </InfoWrapper>
                 </Wrapper>
             </PageWrapper>

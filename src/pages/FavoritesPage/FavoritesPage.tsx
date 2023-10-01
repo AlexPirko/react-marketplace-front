@@ -5,10 +5,10 @@ import { selectFavorites } from 'features/Favorites/selectors';
 import { dummyProducts } from 'pages/products';
 import { ProductGroupContainer } from './styled';
 import { PageWrapper } from 'App.styled';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from 'store';
 
 const FavoritesPage: React.FC = () => {
-    const idsInFavorites = useSelector(selectFavorites);
+    const idsInFavorites = useAppSelector(selectFavorites);
 
     return (
         <>

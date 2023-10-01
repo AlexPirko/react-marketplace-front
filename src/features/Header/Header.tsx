@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useAppSelector } from 'store';
 import { paths } from 'routes/helpers';
 import Button from 'components/Button';
 import Input from 'components/Input';
@@ -24,9 +24,9 @@ import {
 } from './styled';
 
 const Header: React.FC = () => {
-    const isLogged = useSelector(selectIsLogged);
+    const isLogged = useAppSelector(selectIsLogged);
 
-    const favorites = useSelector(selectFavorites);
+    const favorites = useAppSelector(selectFavorites);
 
     const [searcInput, setSearchInput] = useState<string>('');
 
