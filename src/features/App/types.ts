@@ -1,4 +1,4 @@
 export interface I_AppStore {
-    isLogged: boolean;
-    isAppLoading: boolean;
+  isLogged: boolean;
+  isAppLoading: boolean;
 }

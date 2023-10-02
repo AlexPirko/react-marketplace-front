@@ -8,28 +8,30 @@ import Header from 'features/Header';
 import { AppStyles, Footer } from 'App.styled';
 
 const App = () => {
-    const location = useLocation();
+  const location = useLocation();
 
-    const notIsAuthPage = ![paths.login, paths.register].includes(location.pathname);
+  const notIsAuthPage = ![paths.login, paths.register].includes(
+    location.pathname
+  );
 
-    return (
-        <>
-            <AppStyles />
+  return (
+    <>
+      <AppStyles />
 
-            {notIsAuthPage && <Header />}
+      {notIsAuthPage && <Header />}
 
-            <Suspense fallback={'Loading...'}>
-                <PublicRoutes />
-                {/* <PrivateRoutes /> */}
-            </Suspense>
+      <Suspense fallback={'Loading...'}>
+        <PublicRoutes />
+        {/* <PrivateRoutes /> */}
+      </Suspense>
 
-            {notIsAuthPage && (
-                <Footer>
-                    <div>Marketplace</div>
-                </Footer>
-            )}
-        </>
-    );
+      {notIsAuthPage && (
+        <Footer>
+          <div>Marketplace</div>
+        </Footer>
+      )}
+    </>
+  );
 };
 
 export default App;

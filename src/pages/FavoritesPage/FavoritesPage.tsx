@@ -8,31 +8,36 @@ import { PageWrapper } from 'App.styled';
 import { useAppSelector } from 'store';
 
 const FavoritesPage: React.FC = () => {
-    const idsInFavorites = useAppSelector(selectFavorites);
+  const idsInFavorites = useAppSelector(selectFavorites);
 
-    return (
-        <>
-            <Helmet>
-                <title>Favorites - My Marketplace</title>
-            </Helmet>
+  return (
+    <>
+      <Helmet>
+        <title>Favorites - My Marketplace</title>
+      </Helmet>
 
-            <PageWrapper>
-                <h2>Favorites</h2>
+      <PageWrapper>
+        <h2>Favorites</h2>
 
-                {idsInFavorites.length ? (
-                    <ProductGroupContainer>
-                        {dummyProducts
-                            .filter((product) => idsInFavorites.includes(product.id))
-                            .map((product) => (
-                                <ProductCard {...product} key={product.id} isLiked={false} hideLikes={true} />
-                            ))}
-                    </ProductGroupContainer>
-                ) : (
-                    <p>Favorites page is empty</p>
-                )}
-            </PageWrapper>
-        </>
-    );
+        {idsInFavorites.length ? (
+          <ProductGroupContainer>
+            {dummyProducts
+              .filter((product) => idsInFavorites.includes(product.id))
+              .map((product) => (
+                <ProductCard
+                  {...product}
+                  key={product.id}
+                  isLiked={false}
+                  hideLikes={true}
+                />
+              ))}
+          </ProductGroupContainer>
+        ) : (
+          <p>Favorites page is empty</p>
+        )}
+      </PageWrapper>
+    </>
+  );
 };
 
 export default FavoritesPage;

@@ -10,34 +10,38 @@ import { I_UniRes } from 'types/types';
 import { useAppSelector } from 'store';
 
 const HomePage: React.FC = () => {
-    const idsInFavorites = useAppSelector(selectFavorites);
+  const idsInFavorites = useAppSelector(selectFavorites);
 
-    const [products, setProducts] = useState<any[]>();
+  const [products, setProducts] = useState<any[]>();
 
-    useEffect(() => {
-        get('/products').then((res: I_UniRes) => setProducts(res.data));
-    }, []);
+  useEffect(() => {
+    get('/products').then((res: I_UniRes) => setProducts(res.data));
+  }, []);
 
-    if (!products) return <p>Loading</p>;
+  if (!products) return <p>Loading</p>;
 
-    return (
-        <>
-            <Helmet>
-                <title>Main - My Marketplace</title>
-            </Helmet>
+  return (
+    <>
+      <Helmet>
+        <title>Main - My Marketplace</title>
+      </Helmet>
 
-            <PageWrapper>
-                <ProductGroup>
-                    <h2>Favorites</h2>
+      <PageWrapper>
+        <ProductGroup>
+          <h2>Favorites</h2>
 
-                    <ProductGroupContainer>
-                        {products.map((product) => (
-                            <ProductCard {...product} key={product.id} isLiked={idsInFavorites.includes(product.id)} />
-                        ))}
-                    </ProductGroupContainer>
-                </ProductGroup>
-            </PageWrapper>
-        </>
-    );
+          <ProductGroupContainer>
+            {products.map((product) => (
+              <ProductCard
+                {...product}
+                key={product.id}
+                isLiked={idsInFavorites.includes(product.id)}
+              />
+            ))}
+          </ProductGroupContainer>
+        </ProductGroup>
+      </PageWrapper>
+    </>
+  );
 };
 export default HomePage;

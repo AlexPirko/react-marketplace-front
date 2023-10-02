@@ -80,19 +80,19 @@ export const AppStyles = createGlobalStyle`
 //
 
 export const PageWrapper = styled.div`
-    padding: 20px;
-    min-height: calc(100vh - ${HEADER_HEIGHT}px - ${FOOTER_HEIGHT}px);
+  padding: 20px;
+  min-height: calc(100vh - ${HEADER_HEIGHT}px - ${FOOTER_HEIGHT}px);
 `;
 
 export const Footer = styled.div`
-    padding: 10px 20px;
-    display: flex;
-    justify-content: space-between;
-    background-color: ${colors.primary};
-    color: #fff;
-    height: ${FOOTER_HEIGHT};
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  background-color: ${colors.primary};
+  color: #fff;
+  height: ${FOOTER_HEIGHT};
 
-    > :last-child {
-        cursor: pointer;
-    }
+  > :last-child {
+    cursor: pointer;
+  }
 `;

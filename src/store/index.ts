@@ -8,9 +8,9 @@ import favorites from 'features/Favorites/reducer';
 import type { T_RootState } from './types';
 
 const reducer = combineReducers({
-    app,
-    userData,
-    favorites,
+  app,
+  userData,
+  favorites,
 });
 
 const store = configureStore({ reducer });

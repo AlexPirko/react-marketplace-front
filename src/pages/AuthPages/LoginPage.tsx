@@ -1,12 +1,15 @@
 import { useState, useCallback } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { post } from 'helpers/request';
 
-import { useAppSelector } from 'store';
+import { useAppSelector, useAppDispatch } from 'store';
 import { paths } from 'routes/helpers';
 import Input from 'components/Input';
 import Button from 'components/Button';
 import { selectIsAppLoading } from 'features/App/selectors';
+import { setIsAppLoading, setIsLogged } from 'features/App/reducer';
 import logo from 'assets/img/logo.png';
 import {
   PageWrapper,
@@ -20,6 +23,8 @@ import {
 } from './styled';
 
 const LoginPage: React.FC = () => {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const isAppLoading = useAppSelector(selectIsAppLoading);
 
   const [fields, setFields] = useState({
@@ -34,7 +39,7 @@ const LoginPage: React.FC = () => {
         [e.target.name]: e.target.value,
       });
     },
-    [fields],
+    [fields]
   );
 
   const isLoginDisabled = useCallback(() => {
@@ -42,8 +47,27 @@ const LoginPage: React.FC = () => {
   }, [fields]);
 
   const handleLogin = useCallback(async () => {
-    //
-  }, []);
+    dispatch(setIsAppLoading(true));
+
+    const res = await post('/users/login', {
+      loginOrEmail: fields['loginOrEmail'],
+      password: fields['password'],
+    });
+
+    const { status } = res;
+
+    if (status === 'error') {
+      toast.error('Введённые данные неверны');
+      dispatch(setIsAppLoading(false));
+      return;
+    }
+
+    dispatch(setIsLogged(true));
+
+    navigate(paths.home);
+
+    dispatch(setIsAppLoading(false));
+  }, [dispatch, fields, navigate]);
 
   const handleFormKeyPress = useCallback(
     ({ code }: React.KeyboardEvent<HTMLFormElement>) => {
@@ -51,7 +75,7 @@ const LoginPage: React.FC = () => {
         handleLogin();
       }
     },
-    [handleLogin, isLoginDisabled],
+    [handleLogin, isLoginDisabled]
   );
 
   return (
@@ -66,9 +90,9 @@ const LoginPage: React.FC = () => {
         <SubHeading>Please, log in or sign up</SubHeading>
 
         <AuthForm>
-          <VerticalCol onKeyPress={handleFormKeyPress}>
+          <VerticalCol onKeyDown={handleFormKeyPress}>
             <Input
-              name="loginOrEmailOrPhone"
+              name="loginOrEmail"
               label="Login or E-mail"
               placeholder="Enter login or e-mail"
               autocomplete="username"
