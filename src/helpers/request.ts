@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 type T_Method = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'UPDATE';
 
 interface I_Options {
@@ -25,13 +24,8 @@ const request = async (
     },
   };
 
-  //
-  // Body will be interpret as URL Params and attach to URL, or as FormData
-  //
-
   let convertedParams = '';
 
-  // Send as FormData, ...
   if (body && method !== 'GET') {
     if (body instanceof FormData) {
       delete options.headers['Content-Type'];
@@ -39,8 +33,6 @@ const request = async (
     } else {
       options.body = JSON.stringify(body);
     }
-
-    // ... or as URL Params
   } else if (body?.params) {
     const { params } = body;
 
@@ -54,7 +46,6 @@ const request = async (
     if (convertedParams) convertedParams = '?' + convertedParams;
   }
 
-  // Optional Signal to cancel previous request
   if (body?.signal) options.signal = body.signal;
 
   return fetch(
@@ -62,10 +53,8 @@ const request = async (
     options as RequestInit
   )
     .then((res) => {
-      // Logout app if not authorized
       if (res.status === 401) {
         localStorage.removeItem('MW_MP_TOKEN_MARKETPLACE');
-        window.location.reload();
       }
 
       return res;
@@ -74,7 +63,6 @@ const request = async (
     .catch((err) => console.error(err));
 };
 
-// Remove empty params from URL to avoid things like param1=&param2=123
 const clearEmptyParams = (params: { [k: string]: any }) => {
   const cleared: { [k: string]: any } = {};
 

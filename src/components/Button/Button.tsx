@@ -11,14 +11,7 @@ interface I_ButtonProps {
 }
 
 const Button = styled(
-  ({
-    type = 'primary',
-    children,
-    block = false,
-    disabled,
-    onClick = () => {},
-    ...props
-  }: I_ButtonProps) => (
+  ({ children, disabled, onClick = () => {}, ...props }: I_ButtonProps) => (
     <button {...props} type="button" onClick={!disabled ? onClick : () => {}}>
       {children}
     </button>

@@ -45,7 +45,7 @@ export const Label = styled.label`
 
 interface I_InputItselfProps {
   type: 'text' | 'password' | 'date';
-  isGhost: boolean;
+  isghost: boolean;
   disabled?: boolean;
   icon?: React.ReactNode;
 }
@@ -53,23 +53,23 @@ export const InputItself = styled.input<I_InputItselfProps>`
   width: 100%;
   color: #5e5873;
   height: 40px;
-  border: ${(p) => (p.isGhost ? '0' : '1px solid #d8d6de')};
-  border-bottom: ${(p) => (p.isGhost ? '0' : '1px solid #e2e0e6')};
-  border-radius: ${(p) => (p.isGhost ? '0' : '4px')};
+  border: ${(p) => (p.isghost ? '0' : '1px solid #d8d6de')};
+  border-bottom: ${(p) => (p.isghost ? '0' : '1px solid #e2e0e6')};
+  border-radius: ${(p) => (p.isghost ? '0' : '4px')};
   ${({ disabled }) => (disabled ? 'user-select: none' : '')};
   padding-left: ${(p) => {
     if (p.icon) return '50px';
-    if (p.isGhost) return '0';
+    if (p.isghost) return '0';
     return '12px';
   }};
   padding-right: ${(p) => {
     if (p.type === 'password') return '43px';
-    if (p.isGhost) return '0';
+    if (p.isghost) return '0';
     return '12px';
   }};
   background-color: ${(p) => {
     if (p.disabled) return '#efefef';
-    if (p.isGhost) return 'transparent';
+    if (p.isghost) return 'transparent';
     return '#fff';
   }};
 

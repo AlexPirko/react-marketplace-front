@@ -16,7 +16,7 @@ interface I_InputProps {
   label?: string;
   placeholder?: string;
   type?: 'text' | 'password' | 'date';
-  isGhost?: boolean;
+  isghost?: boolean;
   autocomplete?: string;
   icon?: React.ReactNode;
   disabled?: boolean;
@@ -30,7 +30,7 @@ const Input: React.FC<I_InputProps> = ({
   label,
   placeholder,
   type = 'text',
-  isGhost = false,
+  isghost = false,
   autocomplete,
   icon,
   disabled,
@@ -47,7 +47,7 @@ const Input: React.FC<I_InputProps> = ({
       type={type === 'password' && passwordVisibility ? 'text' : type}
       placeholder={placeholder}
       value={value}
-      isGhost={isGhost}
+      isghost={isghost}
       autoComplete={autocomplete || ''}
       icon={icon}
       disabled={disabled}

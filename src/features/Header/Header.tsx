@@ -58,7 +58,7 @@ const Header: React.FC = () => {
         <Input
           value={searcInput}
           onChange={changeSearchInput}
-          isGhost
+          isghost
           placeholder="Search product"
         />
         <BtnSearch />
